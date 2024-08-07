@@ -205,7 +205,7 @@ function! memolist#new_copying_meta(...)
       end
     endfor
   endif
-  call memolist#new_with_meta(title, items['tags'], items['categories'])
+  call memolist#new_with_meta(title, items['tags'])
 endfunction
 
 function! memolist#new_with_meta(title, tags, categories)
@@ -213,7 +213,6 @@ function! memolist#new_with_meta(title, tags, categories)
   \ 'title': a:title,
   \ 'date':  localtime(),
   \ 'tags':  s:join_without_empty(a:tags),
-  \ 'categories': s:join_without_empty(a:categories),
   \}
 
   if g:memolist_memo_date != 'epoch'
@@ -230,10 +229,7 @@ function! memolist#new_with_meta(title, tags, categories)
     let items['tags'] = s:join_without_empty(input("Memo tags: "))
   endif
 
-  if get(g:, 'memolist_prompt_categories', 0) != 0 && empty(items['categories'])
-    let items['categories'] = s:join_without_empty(input("Memo categories: "))
-  endif
-
+  
   if get(g:, 'memolist_filename_prefix_none', 0) != 0
     let file_name = s:esctitle(items['title'])
   else
@@ -271,7 +267,6 @@ let s:default_template = [
 \ '==========',
 \ 'date: {{_date_}}',
 \ 'tags: [{{_tags_}}]',
-\ 'categories: [{{_categories_}}]',
 \ '- - -',
 \]
 
